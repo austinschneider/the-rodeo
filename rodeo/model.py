@@ -1,6 +1,7 @@
 import numpy as np
 from .kernels import kernel
 
+
 class model(object):
     """
     Kernel model class
@@ -12,6 +13,7 @@ class model(object):
         bandwidths are not shared between kernels
         there are as many or fewer bandwidths than there are dimensions
     """
+
     def __init__(self, model_kernels):
         """
         Initialize information about the model
@@ -28,10 +30,12 @@ class model(object):
         j = 0
         self._n_dimensions = 0
         self._n_bandwidths = 0
-        for ki, (dd, bd) in enumerate(zip(self._data_dimensions, self._bandwidth_dimensions)):
-            self._kernel_data_indices.append(tuple(np.arange(i, i+dd)))
-            self._kernel_bandwidth_indices.append(tuple(np.arange(j, j+bd)))
-            self._kernel_index_by_bandwidth_index.extend([ki]*bd)
+        for ki, (dd, bd) in enumerate(
+            zip(self._data_dimensions, self._bandwidth_dimensions)
+        ):
+            self._kernel_data_indices.append(tuple(np.arange(i, i + dd)))
+            self._kernel_bandwidth_indices.append(tuple(np.arange(j, j + bd)))
+            self._kernel_index_by_bandwidth_index.extend([ki] * bd)
             self._n_dimensions += dd
             self._n_bandwidths += bd
             i += dd
@@ -43,8 +47,12 @@ class model(object):
         index is kernel index to evaluate
         """
         j = self._kernel_index_by_bandwidth_index[index]
-        #f = self._kernels[j].evaluate(data[self._kernel_data_indices[j],:], point[(self._kernel_data_indices[j],)], bandwidth[index])
-        f = self._kernels[j].evaluate(point[(self._kernel_data_indices[j],)], data[self._kernel_data_indices[j],:], bandwidth[index])
+        # f = self._kernels[j].evaluate(data[self._kernel_data_indices[j],:], point[(self._kernel_data_indices[j],)], bandwidth[index])
+        f = self._kernels[j].evaluate(
+            point[(self._kernel_data_indices[j],)],
+            data[self._kernel_data_indices[j], :],
+            bandwidth[index],
+        )
         return f
 
     def evaluate_bandwidth_derivative(self, point, data, bandwidth, derivative):
@@ -53,7 +61,10 @@ class model(object):
         derivative is the bandwidth index
         """
         j = self._kernel_index_by_bandwidth_index[derivative]
-        #Zj = self._kernels[j].evaluate_bandwidth_derivative(data[self._kernel_data_indices[j],:], point[(self._kernel_data_indices[j],)], bandwidth[derivative])
-        Zj = self._kernels[j].evaluate_bandwidth_derivative(point[(self._kernel_data_indices[j],)], data[self._kernel_data_indices[j],:], bandwidth[derivative])
+        # Zj = self._kernels[j].evaluate_bandwidth_derivative(data[self._kernel_data_indices[j],:], point[(self._kernel_data_indices[j],)], bandwidth[derivative])
+        Zj = self._kernels[j].evaluate_bandwidth_derivative(
+            point[(self._kernel_data_indices[j],)],
+            data[self._kernel_data_indices[j], :],
+            bandwidth[derivative],
+        )
         return Zj
-

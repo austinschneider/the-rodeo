@@ -3,6 +3,7 @@ import numpy as np
 from context import rodeo
 import unittest
 
+
 class TrySomething(unittest.TestCase):
     """Basic test cases."""
 
@@ -18,7 +19,7 @@ class TrySomething(unittest.TestCase):
         mod = rodeo.model(mod_kernels)
 
         beta = 0.9
-        r = rodeo.the_rodeo(mod, data, weights=np.ones(N)/N)
+        r = rodeo.the_rodeo(mod, data, weights=np.ones(N) / N)
 
         h = np.array([1.0])
 
@@ -27,11 +28,9 @@ class TrySomething(unittest.TestCase):
 
         bandwidth, f = r.local_rodeo(point, beta)
 
-        print('bandwidth =', bandwidth)
-        print('f =', f)
+        print("bandwidth =", bandwidth)
+        print("f =", f)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-
-
