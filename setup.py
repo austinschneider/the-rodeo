@@ -14,9 +14,8 @@ setup(name='rodeo',
         author='Austin Schneider',
         author_email='physics.schneider@gmail.com',
         license='L-GPL-2.1',
-        packages=['rodeo'],
+        packages=['rodeo', 'rodeo/tests'],
         package_data={'rodeo': [
-            'resources/*',
             ]},
         include_package_data=True,
         zip_safe=False)
